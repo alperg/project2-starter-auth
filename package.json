@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "lint": "eslint **/*.js --quiet",
+    "lint2": "eslint . --ext .js --quiet",
     "fix": "eslint --fix .",
     "test": "npm run lint && cross-env NODE_ENV=test mocha -u tdd --reporter spec --exit"
   },
