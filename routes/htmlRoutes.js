@@ -1,6 +1,7 @@
 const router = require('express').Router();
 
 module.exports = (db) => {
+  // Load register page
   router.get('/register', (req, res) => {
     if (req.isAuthenticated()) {
       res.redirect('/profile');
@@ -9,6 +10,7 @@ module.exports = (db) => {
     }
   });
 
+  // Load profile page
   router.get('/profile', (req, res) => {
     if (req.isAuthenticated()) {
       db.User.findOne({
@@ -28,6 +30,7 @@ module.exports = (db) => {
     }
   });
 
+  // Load dashboard page
   router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
       const user = {
@@ -40,6 +43,7 @@ module.exports = (db) => {
     }
   });
 
+  // Load dashboard page
   router.get('/dashboard', (req, res) => {
     if (req.isAuthenticated()) {
       const user = {
@@ -52,6 +56,34 @@ module.exports = (db) => {
     }
   });
 
+  // Load example index page
+  router.get('/example', function (req, res) {
+    if (req.isAuthenticated()) {
+      db.Example.findAll({}).then(function (dbExamples) {
+        res.render('example', {
+          msg: 'Welcome!',
+          examples: dbExamples
+        });
+      });
+    } else {
+      res.redirect('/');
+    }
+  });
+
+  // Load example page and pass in an example by id
+  router.get('/example/:id', function (req, res) {
+    if (req.isAuthenticated()) {
+      db.Example.findOne({ where: { id: req.params.id } }).then(function (dbExample) {
+        res.render('example-detail', {
+          example: dbExample
+        });
+      });
+    } else {
+      res.redirect('/');
+    }
+  });
+
+  // Logout
   router.get('/logout', (req, res, next) => {
     req.logout();
     req.session.destroy((err) => {
@@ -61,6 +93,11 @@ module.exports = (db) => {
       res.clearCookie('connect.sid', { path: '/' });
       res.redirect('/');
     });
+  });
+
+  // Render 404 page for any unmatched routes
+  router.get('*', function (req, res) {
+    res.render('404');
   });
 
   return router;
