@@ -11,7 +11,7 @@ module.exports = {
   },
   test: {
     username: 'root',
-    password: null,
+    password: '12345678',
     database: 'project2_test',
     details: {
       host: 'localhost',
