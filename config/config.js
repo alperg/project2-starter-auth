@@ -10,8 +10,8 @@ module.exports = {
     }
   },
   test: {
-    username: 'root',
-    password: '12345678',
+    username: process.env.TU,
+    password: process.env.TP || null,
     database: 'project2_test',
     details: {
       host: 'localhost',
