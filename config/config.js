@@ -11,12 +11,13 @@ module.exports = {
   },
   test: {
     username: process.env.SEQUELIZE_USER,
-    password: process.env.SEQUELIZE_PASSWORD,
+    password: null,
     database: 'project2_test',
     details: {
       host: process.env.SEQUELIZE_HOST,
       port: 3306,
-      dialect: 'mysql'
+      dialect: 'mysql',
+      logging: false
     }
   },
   production: {
