@@ -20,6 +20,9 @@ config.details.operatorsAliases = {
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config.details);
 } else {
+  if (env === 'test') {
+    config.details.logging = false;
+  }
   sequelize = new Sequelize(config.database, config.username, config.password, config.details);
 }
 

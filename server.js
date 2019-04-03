@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const passport = require('passport');
 const moment = require('moment');
 const helmet = require('helmet');
-const PORT = process.argv[2] || process.env.PORT || 3333;
+const PORT = process.env.PORT || 3333;
 const app = express();
 const db = require('./models');
 
@@ -15,7 +15,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
-app.use(morgan('dev')); // Hook up the HTTP logger
+
+if (app.get('env') !== 'test') {
+  app.use(morgan('dev')); // Hook up the HTTP logger
+}
+
 app.use(express.static('public'));
 
 require('./config/passport')(db, app, passport); // pass passport for configuration
@@ -38,8 +42,16 @@ if (app.get('env') !== 'development') {
   });
 }
 
-db.sequelize.sync({ force: process.env.FORCE_SYNC === 'true' }).then(() => {
-  if (process.env.FORCE_SYNC === 'true') {
+const syncOptions = {
+  force: process.env.FORCE_SYNC === 'true'
+};
+
+if (app.get('env') === 'test') {
+  syncOptions.force = true;
+}
+
+db.sequelize.sync(syncOptions).then(() => {
+  if (app.get('env') !== 'test' && syncOptions.force === 'true') {
     require('./db/seed')(db);
   }
 
@@ -47,3 +59,5 @@ db.sequelize.sync({ force: process.env.FORCE_SYNC === 'true' }).then(() => {
     console.log(`App listening on port: ${PORT}`);
   });
 });
+
+module.exports = app;
