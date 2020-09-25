@@ -51,7 +51,7 @@ if (app.get('env') === 'test') {
 }
 
 db.sequelize.sync(syncOptions).then(() => {
-  if (app.get('env') !== 'test' || syncOptions.force) {
+  if (app.get('env') !== 'test' && syncOptions.force) {
     require('./db/seed')(db);
   }
 
