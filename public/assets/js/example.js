@@ -66,7 +66,8 @@ const handleFormSubmit = function (event) {
 
   const example = {
     text: $exampleText.val().trim(),
-    description: $exampleDescription.val().trim()
+    description: $exampleDescription.val().trim(),
+    UserId: window.userId
   };
 
   if (!(example.text && example.description)) {
