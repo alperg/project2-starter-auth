@@ -3,6 +3,8 @@ node_js: "10"
 branches:
   only:
   - master
+services:
+  - mysql
 cache:
   directories:
     - node_modules
