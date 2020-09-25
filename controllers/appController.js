@@ -2,7 +2,7 @@ module.exports = function (db) {
   return {
     // Get all examples
     getExamples: function (req, res) {
-      db.Example.findAll({}).then(function (dbExamples) {
+      db.Example.findAll({ where: { UserId: req.session.passport.user.id } }).then(function (dbExamples) {
         res.json(dbExamples);
       });
     },
