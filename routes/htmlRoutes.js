@@ -58,9 +58,12 @@ module.exports = (db) => {
 
   // Load example index page
   router.get('/example', function (req, res) {
+    console.log('req.isAuthenticated()?', req.isAuthenticated());
     if (req.isAuthenticated()) {
-      db.Example.findAll({}).then(function (dbExamples) {
+      db.Example.findAll({ raw: true }).then(function (dbExamples) {
         res.render('example', {
+          userInfo: req.session.passport.user,
+          isloggedin: req.isAuthenticated(),
           msg: 'Welcome!',
           examples: dbExamples
         });
@@ -73,8 +76,10 @@ module.exports = (db) => {
   // Load example page and pass in an example by id
   router.get('/example/:id', function (req, res) {
     if (req.isAuthenticated()) {
-      db.Example.findOne({ where: { id: req.params.id } }).then(function (dbExample) {
+      db.Example.findOne({ where: { id: req.params.id }, raw: true }).then(function (dbExample) {
         res.render('example-detail', {
+          userInfo: req.session.passport.user,
+          isloggedin: req.isAuthenticated(),
           example: dbExample
         });
       });
