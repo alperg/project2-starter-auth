@@ -15,8 +15,7 @@
     "import",
     "node",
     "promise",
-    "standard",
-    "chai-friendly"
+    "standard"
   ],
   "globals": {
     "document": false,
