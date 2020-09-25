@@ -19,4 +19,6 @@ AUTH_SECRET=your_auth_secret_key
 ADMIN_USER_PWD=admin_password
 USER_PWD=user_pwd
 FORCE_SYNC=true_or_false
+TU=mysql_user
+TP=mysql_password
 ```
